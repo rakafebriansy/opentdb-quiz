@@ -53,3 +53,9 @@
   src: url('./assets/fonts/geist/Geist-Black.ttf') format('truetype');
   font-weight: 900;
 }
+
+#root {
+  background-color: #000000;
+  color: white;
+  font-family: 'Geist';
+}

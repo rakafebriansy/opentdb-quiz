@@ -7,6 +7,8 @@ import { login } from '../../services';
 import type { LoginRequest } from '../../requests';
 import AlertError from '../../components/AlertError';
 import { useNavigate } from "react-router-dom";
+import type { UserModel } from '../../models/user.model';
+import { useAuth } from '../../context/AuthContext';
 
 const Login: React.FC = ({ }) => {
 
@@ -14,12 +16,14 @@ const Login: React.FC = ({ }) => {
     const [password, setPassword] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
+    const {setUser} = useAuth();
     
-    const attemptLogin = () => {
+    const attemptLogin = async () => {
         try {
-            login({ email, password } as LoginRequest);
-            navigate("/");
+            const userModel: UserModel = await login({ email, password } as LoginRequest);
+            setUser(userModel);
             
+            navigate(`/quiz/${userModel.currentQuizIndex}`);
         } catch (err) {
             if(err instanceof Object) {
                 setError((err as any).errors[0].message);
@@ -33,7 +37,7 @@ const Login: React.FC = ({ }) => {
     return (
         <div className='h-screen w-full relative'>
             <AlertError message={error} />
-            <div className="h-full w-full grid grid-cols-2 font-[Geist]">
+            <div className="h-full w-full grid grid-cols-2">
                 <div className="bg-black relative flex flex-col justify-between h-full">
                     <img src={LoginPattern} alt="login-pattern" className='w-full absolute top-0' />
                     <img src={LoginPattern} alt="login-pattern" className='w-full absolute bottom-0 rotate-180' />
