@@ -2,13 +2,16 @@ import React, { useState } from 'react'
 import LoginPattern from '../../assets/images/login-pattern.png'
 import TextInput from './TextInput';
 import { CiMail, CiLock } from 'react-icons/ci';
-import Button from './Button';
+import Button from '../../components/Button';
 import { login } from '../../services';
 import type { LoginRequest } from '../../requests';
 import AlertError from '../../components/AlertError';
 import { useNavigate } from "react-router-dom";
 import type { UserModel } from '../../models/user.model';
 import { useAuth } from '../../context/AuthContext';
+import { fetchQuizFromApi } from '../../repositories';
+import { useQuiz } from '../../context/QuizContext';
+import QuizModel from '../../models/quiz.model';
 
 const Login: React.FC = ({ }) => {
 
@@ -16,16 +19,23 @@ const Login: React.FC = ({ }) => {
     const [password, setPassword] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
-    const {setUser} = useAuth();
-    
+    const { setUser } = useAuth();
+    const { quizzes, setQuizzes } = useQuiz();
+
     const attemptLogin = async () => {
         try {
             const userModel: UserModel = await login({ email, password } as LoginRequest);
+
+            if (!quizzes) {
+                const quizzesRaw: object[] = await fetchQuizFromApi(20);
+                const quizModels: QuizModel[] = QuizModel.jsonToQuizList(quizzesRaw);
+                setQuizzes(quizModels);
+            }
+
             setUser(userModel);
-            
             navigate(`/quiz/${userModel.currentQuizIndex}`);
         } catch (err) {
-            if(err instanceof Object) {
+            if (err instanceof Object) {
                 setError((err as any).errors[0].message);
             } else {
                 setError((err as Error).message);

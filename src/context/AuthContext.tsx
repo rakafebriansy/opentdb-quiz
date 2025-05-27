@@ -16,6 +16,8 @@ interface AuthProviderProps {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [user, setUser] = useState<UserModel | null>(null);
 
+    // user?.currentQuizIndex - 1) / quizzes.length * 100
+
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
         if (storedUser) {
@@ -30,6 +32,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             }
         }
     }, []);
+
+    useEffect(() => {
+        if (user) {
+            localStorage.setItem('user', JSON.stringify(user));
+        } else {
+            localStorage.removeItem('user');
+        }
+    }, [user]);
 
     return (
         <AuthContext.Provider value={{ user, setUser }}>

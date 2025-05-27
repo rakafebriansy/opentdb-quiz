@@ -2,14 +2,14 @@ import React, { type MouseEventHandler } from 'react'
 
 interface ButtonProps {
     children: React.ReactNode;
-    modifiedClass: string;
+    modifiedClass?: string;
     onClick: MouseEventHandler<HTMLButtonElement>;
 }
 
 const Button: React.FC<ButtonProps> = ({ children, modifiedClass, onClick }) => {
 
     return (
-        <button onClick={onClick} className={`w-full rounded-xl py-2 gap-2 cursor-pointer ${modifiedClass}`}>{children}</button>
+        <button onClick={onClick} className={`rounded-xl py-2 gap-2 cursor-pointer active:scale-95 transition transform duration-100 ${modifiedClass}`}>{children}</button>
     );
 }
 export default Button;

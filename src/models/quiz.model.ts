@@ -1,6 +1,12 @@
 import type { QuizTypeEnum } from "../enums/quiz-type.enum";
 import shuffle from 'lodash/shuffle';
 
+export interface UserAnswer {
+    answer: string;
+    letterIndex: number;
+    isCorrect: boolean;
+}
+
 class QuizModel {
     category: string;
     incorrectAnswers: string[];
@@ -9,7 +15,8 @@ class QuizModel {
     difficulty: string;
     question: string;
     type: QuizTypeEnum;
-
+    userAnswer?: UserAnswer;
+    
     constructor(
         category: string,
         incorrectAnswers: string[],
@@ -17,7 +24,8 @@ class QuizModel {
         allAnswers: string[],
         difficulty: string,
         question: string,
-        type: QuizTypeEnum
+        type: QuizTypeEnum,
+        userAnswer?: UserAnswer
     ) {
         this.category = category;
         this.incorrectAnswers = incorrectAnswers;
@@ -26,6 +34,7 @@ class QuizModel {
         this.difficulty = difficulty;
         this.question = question;
         this.type = type;
+        this.userAnswer = userAnswer;
     }
 
     static jsonToQuiz(quiz: any): QuizModel {
@@ -38,7 +47,8 @@ class QuizModel {
             allAnswers,
             quiz.difficulty,
             quiz.question,
-            quiz.type as QuizTypeEnum
+            quiz.type as QuizTypeEnum,
+            quiz.userAnswer
         );
     }
 
@@ -46,6 +56,5 @@ class QuizModel {
         return quizList.map((item: any) => QuizModel.jsonToQuiz(item));
     }
 }
-
 
 export default QuizModel
