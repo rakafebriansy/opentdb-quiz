@@ -20,3 +20,13 @@ export const findQuiz = (quizzes: QuizModel[], currentIndex: number): QuizModel 
     const quiz: QuizModel | undefined = quizzes.find((_, i) => i == currentIndex - 1);
     return quiz;
 }
+
+export const refreshUser = async (): Promise<UserModel> => {
+    const storedUser = localStorage.getItem('user');
+    if (!storedUser) {
+        throw Error('There\'s no user stored');
+    }
+    const user = JSON.parse(storedUser) as UserModel;
+    const newUser = { email: user.email, currentQuizIndex: 1, answers: [], currentProgress: 0, endAt: Date.now() + QUIZ_DURATION } as UserModel;
+    return newUser;
+}
