@@ -87,6 +87,8 @@ const Quiz: React.FC = ({ }) => {
             const answeredCount = quizzes!.filter(q => q.userAnswer !== undefined).length + 1;
             setUser({ ...user, currentProgress: answeredCount / quizzes!.length * 100 } as UserModel);
         }
+
+        if (id < quizzes!.length) navigate(`/quiz/${id + 1}`);
     }
 
     const undoAnswer = (index: number) => {
@@ -168,15 +170,11 @@ const Quiz: React.FC = ({ }) => {
                     <div className={`flex ${id > 1 ? 'justify-between' : 'justify-end'} w-full items-center mt-4`}>
                         {id > 1 && (
                             <Button modifiedClass='border-purple-600 hover:bg-white/10 border-2 text-purple-600 px-5 rounded-xl' onClick={() => {
-                                const newIndex = id - 1;
-                                setUser({ ...user, currentQuizIndex: newIndex } as UserModel);
-                                navigate(`/quiz/${newIndex}`);
+                                navigate(`/quiz/${id - 1}`);
                             }}>Previous</Button>
                         )}
                         {id < quizzes!.length ? <Button modifiedClass='bg-purple-600 hover:bg-purple-700 border-2 border-purple-600 px-5 rounded-xl' onClick={() => {
-                            const newIndex = id + 1;
-                            setUser({ ...user, currentQuizIndex: newIndex } as UserModel);
-                            navigate(`/quiz/${newIndex}`);
+                            navigate(`/quiz/${id + 1}`);
                         }}>Next</Button> : <Button modifiedClass='bg-green-600 hover:bg-green-700 border-2 border-green-600 px-5 rounded-xl' onClick={() => { setIsShowModal(true); }}>Submit</Button>}
                     </div>
                 </div>
@@ -192,7 +190,6 @@ const Quiz: React.FC = ({ }) => {
                                 selected={id == i + 1}
                                 key={i}
                                 onClick={() => {
-                                    setUser({ ...user!, currentQuizIndex: i + 1 });
                                     navigate(`/quiz/${i + 1}`);
                                 }}
                                 index={i + 1}

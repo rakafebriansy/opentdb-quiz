@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useQuiz } from '../../context/QuizContext';
 import type { UserModel } from '../../models/user.model';
@@ -13,9 +13,10 @@ const ResumeModal: React.FC = () => {
   const { user, setUser, isResumed, setIsResumed } = useAuth();
   const { setQuizzes } = useQuiz();
   const [isResume, setIsResume] = useState<boolean>(false);
+  const location = useLocation();
 
   useEffect(() => {
-    if (isResumed && user?.sessionStarted) {
+    if (isResumed && user?.sessionStarted && location.pathname !== '/result') {
       setIsResume(true);
     }
   }, [isResumed, user]);

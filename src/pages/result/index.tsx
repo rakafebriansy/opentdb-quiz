@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ResultPattern from '../../assets/images/result-pattern.png'
 import Button from '../../components/Button';
 import { useAuth } from '../../context/AuthContext';
@@ -12,8 +12,19 @@ import { fetchQuizFromApi } from '../../repositories';
 
 const Result: React.FC = ({ }) => {
     const { user, setUser } = useAuth();
-    const { setQuizzes } = useQuiz();
+    const { quizzes, setQuizzes } = useQuiz();
+    const [totalAnswered, setTotalAnswered] = useState<number | undefined>(undefined);
+    const [totalCorrect, setTotalCorrect] = useState<number | undefined>(undefined);
+    const [totalIncorrect, setTotalIncorrect] = useState<number | undefined>(undefined);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (quizzes) {
+            setTotalAnswered(quizzes.filter(q => q.userAnswer !== undefined).length);
+            setTotalCorrect(quizzes.filter(q => q.userAnswer?.isCorrect).length);
+            setTotalIncorrect(quizzes.filter(q => !q.userAnswer?.isCorrect).length);
+        }
+    }, [quizzes]);
 
     const attemptLogout = (): void => {
         setUser(null);
@@ -28,7 +39,7 @@ const Result: React.FC = ({ }) => {
 
             setQuizzes(QuizModel.jsonToQuizList(quizzesRaw));
             setUser(newUser);
-            
+
             navigate(`/quiz/${newUser.currentQuizIndex}`)
         } catch (e) {
             console.error('Failed to play again:', e);
@@ -40,9 +51,14 @@ const Result: React.FC = ({ }) => {
             <div className="absolute inset-0">
                 <img src={ResultPattern} alt="result-pattern" className='w-full h-full object-fill' />
             </div>
-            <div className="z-10 flex flex-col gap-4 w-1/2 items-center">
+            <div className="z-10 flex flex-col gap-4 w-1/2 items-center relative">
                 <h1 className='text-4xl'>Your score is</h1>
                 <h1 className='text-6xl font-[Alata] bg-[linear-gradient(to_right,_#F09FFD_36%,_#1494F1_100%)] bg-clip-text text-transparent font-bold'>{user!.score ?? '-'}</h1>
+                <div className="text-sm flex gap-2">
+                    <div className='py-1 px-3 bg-blue-700 rounded-xl'>Answered: {totalAnswered}</div>
+                    <div className='py-1 px-3 bg-green-700 rounded-xl'>Correct: {totalCorrect}</div>
+                    <div className='py-1 px-3 bg-red-700 rounded-xl'>Incorrect: {totalIncorrect}</div>
+                </div>
                 <div className="relative flex items-center w-3/4">
                     <div className="w-1 h-1 bg-[#A6AAB2] rounded-full"></div>
                     <div className="flex-grow h-px bg-[#A6AAB2]"></div>
