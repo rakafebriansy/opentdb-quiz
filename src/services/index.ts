@@ -12,7 +12,7 @@ export const login = async (request: LoginRequest): Promise<UserModel> => {
         throw new Error('Invalid credentials');
     }
 
-    const userModel = {email: data.email, currentQuizIndex: 1, answers:[], currentProgress: 0, endAt: Date.now() + QUIZ_DURATION} as UserModel;
+    const userModel = { email: data.email, currentQuizIndex: 1, answers: [], currentProgress: 0, endAt: Date.now() + QUIZ_DURATION } as UserModel;
     return userModel;
 }
 

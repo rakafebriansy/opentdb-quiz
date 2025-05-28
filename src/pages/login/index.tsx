@@ -28,8 +28,7 @@ const Login: React.FC = ({ }) => {
 
             if (!quizzes) {
                 const quizzesRaw: object[] = await fetchQuizFromApi(20);
-                const quizModels: QuizModel[] = QuizModel.jsonToQuizList(quizzesRaw);
-                setQuizzes(quizModels);
+                setQuizzes(QuizModel.jsonToQuizList(quizzesRaw));
             }
 
             setUser(userModel);
