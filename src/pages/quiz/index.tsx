@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { FaLessThan } from 'react-icons/fa6';
 import { IoMdStopwatch } from 'react-icons/io';
 import type QuizModel from '../../models/quiz.model';
 import { capitalize } from 'lodash';
@@ -18,7 +17,7 @@ import { MdClose } from 'react-icons/md';
 import { IoCheckmark } from 'react-icons/io5';
 
 const Quiz: React.FC = ({ }) => {
-    const { user, setUser } = useAuth();
+    const { user, loading, setUser } = useAuth();
     const { quizzes, setQuizzes } = useQuiz();
     const [timeLeft, setTimeLeft] = useState<number>(0);
     const [progress, setProgress] = useState<number>(0);
@@ -31,8 +30,12 @@ const Quiz: React.FC = ({ }) => {
 
     useEffect(() => {
         if (!user?.endAt) return;
+        let newUser = { ...user, currentQuizIndex: id } as UserModel;
+        if (user && !user.sessionStarted) {
+            newUser = { ...newUser, sessionStarted: true };
+        }
 
-        setUser({ ...user, currentQuizIndex: id } as UserModel);
+        setUser(newUser);
 
         const interval = setInterval(() => {
             const remaining = user.endAt - Date.now();
@@ -119,6 +122,8 @@ const Quiz: React.FC = ({ }) => {
         if (isShowModal) setIsShowModal(false);
     }
 
+    if (loading || !user) return null;
+
     return (
         <div className="h-screen select-none flex flex-col">
             <Modal isOpen={isShowModal} onClose={() => setIsShowModal(false)}>
@@ -130,11 +135,8 @@ const Quiz: React.FC = ({ }) => {
                     </div>
                 </div>
             </Modal>
-            <nav className='w-full bg-black relative flex px-12 py-4 border-b border-white/15'>
-                <div className="p-3 border border-white/15 rounded-lg">
-                    <FaLessThan size='12' />
-                </div>
-                <h1 className='absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2'>Science & Technology Quiz</h1>
+            <nav className='w-full bg-black relative flex px-12 py-8 border-b border-white/15'>
+                <h1 className='absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2'>MyQuiz</h1>
             </nav>
             <div className="p-12 flex justify-between gap-12 flex-grow">
                 <div className="w-[70%] flex flex-col justify-between h-full">

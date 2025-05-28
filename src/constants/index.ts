@@ -1,3 +1,3 @@
 export const EMAIL = 'contact.rakafebrian@gmail.com';
 export const PASSWORD = 'password';
-export const QUIZ_DURATION = 300000;
+export const QUIZ_DURATION = 3000000;

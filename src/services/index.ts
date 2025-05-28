@@ -12,7 +12,7 @@ export const login = async (request: LoginRequest): Promise<UserModel> => {
         throw new Error('Invalid credentials');
     }
 
-    const userModel = { email: data.email, currentQuizIndex: 1, answers: [], currentProgress: 0, endAt: Date.now() + QUIZ_DURATION } as UserModel;
+    const userModel = { email: data.email, currentQuizIndex: 1, answers: [], currentProgress: 0, endAt: Date.now() + QUIZ_DURATION, sessionStarted: false } as UserModel;
     return userModel;
 }
 
@@ -27,6 +27,6 @@ export const refreshUser = async (): Promise<UserModel> => {
         throw Error('There\'s no user stored');
     }
     const user = JSON.parse(storedUser) as UserModel;
-    const newUser = { email: user.email, currentQuizIndex: 1, answers: [], currentProgress: 0, endAt: Date.now() + QUIZ_DURATION } as UserModel;
+    const newUser = { email: user.email, currentQuizIndex: 1, answers: [], currentProgress: 0, endAt: Date.now() + QUIZ_DURATION, sessionStarted: false } as UserModel;
     return newUser;
 }

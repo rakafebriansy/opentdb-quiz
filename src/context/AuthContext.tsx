@@ -7,6 +7,8 @@ interface AuthContextType {
     setUser: React.Dispatch<React.SetStateAction<UserModel | null>>;
     loading: boolean;
     setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+    isResumed: boolean;
+    setIsResumed: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -18,6 +20,7 @@ interface AuthProviderProps {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [user, setUser] = useState<UserModel | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
+    const [isResumed, setIsResumed] = useState(false);
 
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
@@ -28,6 +31,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
                     throw new Error('Unauthorized');
                 }
                 setUser(JSON.parse(storedUser));
+                setIsResumed(true);
             } catch (e) {
                 console.error('Error while parsing user:', e);
             }
@@ -44,7 +48,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }, [user]);
 
     return (
-        <AuthContext.Provider value={{ user, setUser, loading, setLoading }}>
+        <AuthContext.Provider value={{ user, setUser, loading, setLoading, isResumed, setIsResumed }}>
             {children}
         </AuthContext.Provider>
     );
