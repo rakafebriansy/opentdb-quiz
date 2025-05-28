@@ -9,6 +9,7 @@ import ProtectedRoute from './middlewares/ProtectedRoute'
 import GuestRoute from './middlewares/GuestRoute'
 import { AuthProvider } from './context/AuthContext'
 import { QuizProvider } from './context/QuizContext'
+import Result from './pages/result'
 
 function App() {
   return (
@@ -26,6 +27,8 @@ function App() {
             >
               <Route path="/quiz/:id"
                 element={<Quiz />} />
+              <Route path="/result"
+                element={<Result />} />
             </Route>
           </Routes>
         </Router>

@@ -5,6 +5,8 @@ import { EMAIL } from '../constants';
 interface AuthContextType {
     user: UserModel | null;
     setUser: React.Dispatch<React.SetStateAction<UserModel | null>>;
+    loading: boolean;
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -15,15 +17,14 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [user, setUser] = useState<UserModel | null>(null);
-
-    // user?.currentQuizIndex - 1) / quizzes.length * 100
+    const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
         if (storedUser) {
             try {
                 const user: UserModel = JSON.parse(storedUser) as UserModel;
-                if(user.email != EMAIL) {
+                if (user.email != EMAIL) {
                     throw new Error('Unauthorized');
                 }
                 setUser(JSON.parse(storedUser));
@@ -31,6 +32,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
                 console.error('Error while parsing user:', e);
             }
         }
+        setLoading(false);
     }, []);
 
     useEffect(() => {
@@ -42,7 +44,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }, [user]);
 
     return (
-        <AuthContext.Provider value={{ user, setUser }}>
+        <AuthContext.Provider value={{ user, setUser, loading, setLoading }}>
             {children}
         </AuthContext.Provider>
     );

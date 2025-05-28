@@ -64,7 +64,7 @@ const Login: React.FC = ({ }) => {
                     <div className='flex flex-col gap-3'>
                         <TextInput onChange={(value) => { setEmail(value) }} value={email} placeholder='Enter your email address...' title='Email' icon={<CiMail className='text-slate-500 size-5' style={{ strokeWidth: 1 }} />} />
                         <TextInput onChange={(value) => { setPassword(value) }} value={password} placeholder='Enter your password...' title='Password' icon={<CiLock className='text-slate-500 size-5' style={{ strokeWidth: 1 }} />} />
-                        <Button onClick={attemptLogin} modifiedClass='text-white bg-purple-600 hover:bg-purple-700 mt-2'>Sign in</Button>
+                        <Button onClick={attemptLogin} modifiedClass='text-white bg-purple-600 hover:bg-purple-700 mt-2 rounded-xl'>Sign in</Button>
                     </div>
                 </div>
             </div>

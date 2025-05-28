@@ -1,4 +1,4 @@
-import { EMAIL, PASSWORD } from "../constants";
+import { EMAIL, PASSWORD, QUIZ_DURATION } from "../constants";
 import QuizModel from "../models/quiz.model";
 import type { UserModel } from "../models/user.model";
 import type { LoginRequest } from "../requests"
@@ -12,7 +12,7 @@ export const login = async (request: LoginRequest): Promise<UserModel> => {
         throw new Error('Invalid credentials');
     }
 
-    const userModel = {email: data.email, currentQuizIndex: 1, answers:[], currentProgress: 0} as UserModel;
+    const userModel = {email: data.email, currentQuizIndex: 1, answers:[], currentProgress: 0, endAt: Date.now() + QUIZ_DURATION} as UserModel;
     return userModel;
 }
 

@@ -54,6 +54,12 @@
   font-weight: 900;
 }
 
+@font-face {
+  font-family: 'Alata';
+  src: url('./assets/fonts/Alata/Alata-Regular.ttf') format('truetype');
+  font-weight: 400;
+}
+
 #root {
   background-color: #000000;
   color: white;

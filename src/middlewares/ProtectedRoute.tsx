@@ -1,14 +1,21 @@
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const ProtectedRoute = () => {
-    const { user } = useAuth();
+    const location = useLocation();
+    const { user, loading } = useAuth();
 
+    if (loading) {
+        return <div></div>; // atau spinner
+    }
+    if (!location.pathname.includes('/result') && user?.endAt == -1) {
+        return <Navigate to="/result" replace />;
+    }
     if (!user) {
         return <Navigate to="/login" replace />;
     }
 
-    return <Outlet/>;
+    return <Outlet />;
 };
 
 export default ProtectedRoute;
