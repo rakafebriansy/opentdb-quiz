@@ -7,6 +7,7 @@ import { refreshUser } from '../../services';
 import QuizModel from '../../models/quiz.model';
 import Button from '../Button';
 import { useEffect, useState } from 'react';
+import { AMOUNT } from '../../constants';
 
 const ResumeModal: React.FC = () => {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ const ResumeModal: React.FC = () => {
 
   const handleRestart = async () => {
     try {
-      const quizzesRaw: object[] = await fetchQuizFromApi(20);
+      const quizzesRaw: object[] = await fetchQuizFromApi(AMOUNT);
       const newUser: UserModel = await refreshUser();
 
       setQuizzes(QuizModel.jsonToQuizList(quizzesRaw));

@@ -12,6 +12,7 @@ import { useAuth } from '../../context/AuthContext';
 import { fetchQuizFromApi } from '../../repositories';
 import { useQuiz } from '../../context/QuizContext';
 import QuizModel from '../../models/quiz.model';
+import { AMOUNT } from '../../constants';
 
 const Login: React.FC = ({ }) => {
 
@@ -27,7 +28,7 @@ const Login: React.FC = ({ }) => {
             const userModel: UserModel = await login({ email, password } as LoginRequest);
 
             if (!quizzes) {
-                const quizzesRaw: object[] = await fetchQuizFromApi(20);
+                const quizzesRaw: object[] = await fetchQuizFromApi(AMOUNT);
                 setQuizzes(QuizModel.jsonToQuizList(quizzesRaw));
             }
 

@@ -8,6 +8,7 @@ import { refreshUser } from '../../services';
 import type { UserModel } from '../../models/user.model';
 import QuizModel from '../../models/quiz.model';
 import { fetchQuizFromApi } from '../../repositories';
+import { AMOUNT } from '../../constants';
 
 
 const Result: React.FC = ({ }) => {
@@ -34,7 +35,7 @@ const Result: React.FC = ({ }) => {
 
     const attemptPlayAgain = async (): Promise<void> => {
         try {
-            const quizzesRaw: object[] = await fetchQuizFromApi(20);
+            const quizzesRaw: object[] = await fetchQuizFromApi(AMOUNT);
             const newUser: UserModel = await refreshUser();
 
             setQuizzes(QuizModel.jsonToQuizList(quizzesRaw));
