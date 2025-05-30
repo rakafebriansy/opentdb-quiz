@@ -9,7 +9,7 @@ interface ButtonProps {
 const Button: React.FC<ButtonProps> = ({ children, modifiedClass, onClick }) => {
 
     return (
-        <button onClick={onClick} className={`py-2 gap-2 cursor-pointer active:scale-95 transition transform duration-100 ${modifiedClass}`}>{children}</button>
+        <button onClick={onClick} className={`py-2 text-xs md:text-base gap-2 cursor-pointer active:scale-95 transition transform duration-100 ${modifiedClass}`}>{children}</button>
     );
 }
 export default Button;

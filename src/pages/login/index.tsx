@@ -46,18 +46,18 @@ const Login: React.FC = ({ }) => {
     return (
         <div className='h-screen w-full relative'>
             <AlertError message={error} />
-            <div className="h-full w-full grid grid-cols-2">
+            <div className="h-full w-full flex flex-col lg:grid lg:grid-cols-2">
                 <div className="bg-black relative flex flex-col justify-between h-full">
                     <img src={LoginPattern} alt="login-pattern" className='w-full absolute top-0' />
                     <img src={LoginPattern} alt="login-pattern" className='w-full absolute bottom-0 rotate-180' />
-                    <h1 className="absolute text-5xl font-bold bg-gradient-to-r from-[#5813C1] from-40% to-[#C45037] bg-clip-text text-transparent top-1/2 left-1/2 -translate-1/2 -translate-y-1/2">
+                    <h1 className="absolute text-3xl lg:text-5xl font-bold bg-gradient-to-r from-[#5813C1] from-40% to-[#C45037] bg-clip-text text-transparent top-1/2 left-1/2 -translate-1/2 -translate-y-1/2">
                         MyQuiz
                     </h1>
                 </div>
-                <div className="p-32 flex flex-col gap-4">
+                <div className="p-10 md:p-16 lg:p-32 flex flex-col justify-center gap-4">
                     <div className="flex flex-col gap-1">
-                        <p className='font-bold text-3xl'>Welcome Back</p>
-                        <p className='text-slate-500 text-lg font-medium'>Enter your credentials to access your account</p>
+                        <p className='font-bold text-xl lg:text-3xl'>Welcome Back</p>
+                        <p className='text-slate-500 text-sm lg:text-lg font-medium'>Enter your credentials to access quiz</p>
                     </div>
                     <hr className='border-slate-200' />
                     <div className='flex flex-col gap-3'>
